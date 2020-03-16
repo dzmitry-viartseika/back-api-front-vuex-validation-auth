@@ -8,7 +8,7 @@ app.get('/', (req,res) => {
 
 app.get('/api/courses', (req, res) => {
     res.send([1,2,3,4,5]);
-})ж
+});
 
 app.listen(3001, () => {
     console.log('listening on port 3001');
