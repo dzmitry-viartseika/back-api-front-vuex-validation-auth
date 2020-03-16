@@ -6,6 +6,10 @@ app.get('/', (req,res) => {
     res.send('Hello wertey');
 });
 
-app.listen(3000, () => {
-    console.log('listening on port 3000');
+app.get('/api/courses', (req, res) => {
+    res.send([1,2,3,4,5]);
+})
+
+app.listen(3001, () => {
+    console.log('listening on port 3001');
 });
