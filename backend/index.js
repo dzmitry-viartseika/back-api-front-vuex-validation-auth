@@ -1,8 +1,15 @@
 const joi = require('joi');
 const express = require('express');
 const app = express();
-
 app.use(express.json());
+var cors = require('cors');
+app.use(cors());
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 const courses = [
     {
@@ -16,8 +23,10 @@ const courses = [
         id: 3,
         name: 'course3'
     },
+];
 
-]
+
+const databaseUsers = []
 
 app.get('/', (req,res) => {
     // request and response
@@ -26,6 +35,10 @@ app.get('/', (req,res) => {
 
 app.get('/api/courses', (req, res) => {
     res.send(courses);
+});
+
+app.get('/api/database', (req, res) => {
+    res.send(databaseUsers);
 });
 
 app.get('/api/courses/:id', (req, res) => {
@@ -67,6 +80,26 @@ app.post('/api/courses', (req, res) => {
     res.send(course);
 });
 
+app.post('', (req, res) => {
+    const { error } = validateForm(req.body);
+
+    if (error) {
+        res.status(400).send(error.details[0].message);
+        return;
+    }
+    if (error) {
+        res.status(400).send(error.details[0].message);
+        return;
+    }
+    const user = {
+        id: databaseUsers.length + 1,
+        email: req.body.email,
+        password: req.body.password,
+    };
+    databaseUsers.push(user);
+    res.send(user);
+});
+
 app.delete('/api/courses/:id', (req,res) => {
     const course =  courses.find((c) => {
         return c.id === parseInt(req.params.id)
@@ -100,4 +133,12 @@ function validateCourse(course) {
         name: joi.string().min(3).required(),
     };
     return  joi.validate(course, schema);
+}
+
+function validateForm(user) {
+    const schema = {
+        email: joi.string().min(2).required(),
+        password: joi.string().min(6).required(),
+    };
+    return  joi.validate(user, schema);
 }
