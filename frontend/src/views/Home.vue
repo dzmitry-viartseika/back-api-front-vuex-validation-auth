@@ -39,16 +39,14 @@ export default {
   },
   methods: {
     signUp() {
-      axios
-        .post('localhost:3000/api/auth/login', {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-          },
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => console.log(err));
+      axios({
+        method: 'post',
+        url: '/api/auth/login',
+        data: {
+          email: '123',
+          password: '123',
+        },
+      });
     },
   },
 };

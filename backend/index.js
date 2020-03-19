@@ -80,8 +80,9 @@ app.post('/api/courses', (req, res) => {
     res.send(course);
 });
 
-app.post('', (req, res) => {
+app.post('/api/auth/login', (req, res) => {
     const { error } = validateForm(req.body);
+    console.log(req.body)
 
     if (error) {
         res.status(400).send(error.details[0].message);
