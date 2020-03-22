@@ -56,6 +56,7 @@ export default {
       });
     },
     logIn() {
+      const self = this;
       fetch('http://localhost:3000/users/login', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
@@ -63,8 +64,11 @@ export default {
           email: this.newUser.email,
           password: this.newUser.password,
         }),
+      }).then((response) => {
+        if (response.status === '200') {
+          self.$router.push('/wertey');
+        }
       });
-      this.$router.push('/wertey');
     },
   },
   mounted() {
