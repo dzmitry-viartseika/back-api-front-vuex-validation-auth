@@ -65,8 +65,7 @@ app.post('/users/login', (req, res) => {
     const user = databaseUsers.find((user) => {
         if(user.email === req.body.email && user.password === req.body.password) {
             console.log('same')
-            res.redirect('/wertey');
-            return user;
+            return res.redirect('/wertey');
         } else {
             console.log('different')
             return res.status(400).send('Can not find user')
