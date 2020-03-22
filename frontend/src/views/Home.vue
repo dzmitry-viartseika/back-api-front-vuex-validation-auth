@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    {{ users }}
     <div class="home-text">
       {{ newUser }}
       <label class="home-text__label">Email</label>
@@ -21,6 +22,11 @@
               @click="signUp()"
       >Sign up</button>
     </div>
+    <br>
+    <button type="button"
+            class="home-button__btn"
+            @click="logIn()"
+    >Log in</button>
   </div>
 </template>
 
@@ -35,19 +41,38 @@ export default {
         email: null,
         password: null,
       },
+      users: [],
     };
   },
   methods: {
     signUp() {
-      axios({
+      fetch('http://localhost:3000/api/auth/login', {
         method: 'post',
-        url: '/api/auth/login',
-        data: {
-          email: '123',
-          password: '123',
-        },
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: this.newUser.email,
+          password: this.newUser.password,
+        }),
       });
     },
+    logIn() {
+      fetch('http://localhost:3000/users/login', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: this.newUser.email,
+          password: this.newUser.password,
+        }),
+      });
+    },
+  },
+  mounted() {
+    axios
+      .get('http://localhost:3000/api/database')
+      .then((response) => {
+        this.users = response.data;
+      })
+      .catch((err) => console.log(err));
   },
 };
 </script>
