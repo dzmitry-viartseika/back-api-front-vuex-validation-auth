@@ -64,6 +64,7 @@ export default {
           password: this.newUser.password,
         }),
       });
+      this.$router.push('/wertey');
     },
   },
   mounted() {
